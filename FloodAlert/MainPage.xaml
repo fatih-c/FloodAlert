@@ -13,6 +13,8 @@
             <ColumnDefinition Width="193*"/>
             <ColumnDefinition Width="447*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtBox1" HorizontalAlignment="Left" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="1480" Height="696" RenderTransformOrigin="-1.188,0.815" TextChanged="TextBox_TextChanged" Grid.ColumnSpan="2" Margin="220,0,0,0"/>
+        <ListView x:Name="listView" Grid.Column="1">
+            <ListView Height="100" Width="100"/>
+        </ListView>
     </Grid>
 </Page>
