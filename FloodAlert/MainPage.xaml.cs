@@ -29,6 +29,7 @@ namespace FloodAlert
         {
             this.InitializeComponent();
             string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FloodAlert.db");
+            CopyDatabase(path);          
             try
             {
                 ShowData();
@@ -80,6 +81,15 @@ namespace FloodAlert
              txtBox1.Text = vrijeme + "    " + level;*/
             #endregion
         }
+
+        void CopyDatabase(string path)
+        {
+            if(File.Exists(path) == false)
+            {
+                System.IO.File.Copy("FloodAlert.db", path, true);
+            }
+        }
+
         private async void timerCallback(object state)
         {
 
