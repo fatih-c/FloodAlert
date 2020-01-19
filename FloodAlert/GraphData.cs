@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace FloodAlert
 {
-    class ObservationContextcs
+    class GraphData
     {
-
+        
+        public string measuringTime { get; set; }
+        public int waterLevel { get; set; }
     }
 }

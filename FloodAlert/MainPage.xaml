@@ -5,6 +5,7 @@
     xmlns:local="using:FloodAlert"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -13,8 +14,23 @@
             <ColumnDefinition Width="193*"/>
             <ColumnDefinition Width="447*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="listView" Grid.Column="1">
+        <ListView x:Name="listView" Margin="10,164,78,10">
             <ListView Height="100" Width="100"/>
         </ListView>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="151,0,0,0" Text="&#xD;&#xA;" TextWrapping="Wrap" VerticalAlignment="Top" Height="64" Width="224" IsReadOnly="True" BorderBrush="#66FFFFFF"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="149" Width="365" FontSize="65" IsReadOnly="True" BorderBrush="#66FFFFFF"/>
+        <Charting:Chart  
+        x:Name="lineChart"  
+        HorizontalAlignment="Left"  
+        VerticalAlignment="Center"  
+        Margin="20,0,0,0" Height="682" Width="1028" Grid.Column="1" >
+            <Charting:LineSeries x:Name="LineChart" Margin="0,-34,0,34"  
+        IndependentValuePath="Name"  
+        DependentValuePath="Amount"  
+        IsSelectionEnabled="True"/>
+        </Charting:Chart>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="181,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="845" FontSize="20" Grid.Column="1" Foreground="#FFEC1818"/>
+
+
     </Grid>
 </Page>
