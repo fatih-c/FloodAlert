@@ -17,19 +17,21 @@
         <ListView x:Name="listView" Margin="10,164,78,10">
             <ListView Height="100" Width="100"/>
         </ListView>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="151,0,0,0" Text="&#xD;&#xA;" TextWrapping="Wrap" VerticalAlignment="Top" Height="64" Width="224" IsReadOnly="True" BorderBrush="#66FFFFFF"/>
-        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="10,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="149" Width="365" FontSize="65" IsReadOnly="True" BorderBrush="#66FFFFFF"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="411,11,0,0" Text="&#xD;&#xA;" TextWrapping="Wrap" VerticalAlignment="Top" Height="64" Width="224" IsReadOnly="True" BorderBrush="#66FFFFFF" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="textBox1" HorizontalAlignment="Left" Margin="87,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="149" Width="365" FontSize="65" IsReadOnly="True" BorderBrush="#66FFFFFF"/>
         <Charting:Chart  
         x:Name="lineChart"  
         HorizontalAlignment="Left"  
         VerticalAlignment="Center"  
-        Margin="20,0,0,0" Height="682" Width="1028" Grid.Column="1" >
-            <Charting:LineSeries x:Name="LineChart" Margin="0,-34,0,34"  
+        Margin="240,0,0,0" Height="478" Width="808" Grid.Column="1" >
+            <Charting:LineSeries x:Name="LineChart" Margin="246,-34,0,102"  
         IndependentValuePath="Name"  
         DependentValuePath="Amount"  
         IsSelectionEnabled="True"/>
         </Charting:Chart>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="181,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="845" FontSize="20" Grid.Column="1" Foreground="#FFEC1818"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="188,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="845" FontSize="20" Grid.Column="1" Foreground="#FFEC1818"/>
+        <NavigationView x:Name="NavigationView" Content="&#xD;&#xA;" Margin="0,-5,10,0"/>
+        <Button x:Name="button" Content="SETTINGS" Margin="361,164,0,0" VerticalAlignment="Top" Click="button_Click" RequestedTheme="Default"/>
 
 
     </Grid>

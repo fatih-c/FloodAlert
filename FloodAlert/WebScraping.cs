@@ -14,6 +14,7 @@ namespace FloodAlert
 {
     class WebScraping
     {
+        
         private readonly WebClient client;
         public string url;
         public WebScraping()

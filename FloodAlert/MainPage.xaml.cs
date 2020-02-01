@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
-
+using System.Data;
+using System.ComponentModel.DataAnnotations;
+using Windows.UI.Xaml;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace FloodAlert
@@ -28,6 +31,7 @@ namespace FloodAlert
         public MainPage()
         {
             this.InitializeComponent();
+            Frame rootFrame = Window.Current.Content as Frame;
             string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FloodAlert.db");
             CopyDatabase(path);          
             try
@@ -113,34 +117,39 @@ namespace FloodAlert
 
             ObservationDownloader observation = new ObservationDownloader();
             int stationId = 1;
-          
             List<ObservationData> observationData = observation.GetLastObservation(stationId);
-            ObservationData data = new ObservationData();
-            FloodAlertDb db = new FloodAlertDb();
-            foreach (var item in observationData)
-            {
-                listView.Items.Add(item.measuringTime.ToString("dd.MM u HH:mm"));
-                listView.Items.Add(item.waterLevel);
-                data = item;             
-                try
-                {
-                    db.ObservationData.Add(data);
-                    db.SaveChanges();
-                }
-                                     
-               
-                catch (Exception)
-                {
-                    
-                }
-            }
-            
-
-
+            SaveDatabase(observationData);
             AddChart(observationData);
             textBox.Text = observationData[0].processingTime.ToString("HH:mm");
             textBox1.Text = observationData[0].waterLevel.ToString();
+            FloodAlertDb db = new FloodAlertDb();
+            foreach(var item in observationData)
+            {
+                listView.Items.Add(item.waterLevel);
+                listView.Items.Add(item.measuringTime.ToString("dd.MM u HH:mm"));
+                
+            }
+
+        }
+        void SaveDatabase(List<ObservationData> obsData)
+        {
+            using (var db = new FloodAlertDb())
+            {
+                ObservationData data = new ObservationData();
+                var result1 = db.ObservationData.Where(k => k.id == 1).FirstOrDefault();
+                foreach (var item in obsData)
+                {
+                    data = item;
+                    if (result1.measuringTime != data.measuringTime)
+                    {
+                        db.ObservationData.Add(data);
+                    }
+
+                }
+                db.SaveChanges();
+            }
             
+
         }
         private void AddChart(List<ObservationData> observationData)
         {
@@ -154,11 +163,18 @@ namespace FloodAlert
                 list.Add(data1);
             }
             //(lineChart.Series[0] as LineSeries).ItemsSource = list;
+
+
         }
          
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
         }
     }
 }

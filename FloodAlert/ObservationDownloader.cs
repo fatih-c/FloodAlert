@@ -30,12 +30,12 @@ namespace FloodAlert
                 ind = html.IndexOf(substring + i + "\""); //<td>10.01.20 u 19:00</td>    <td align="right" id="nivo1">100,00 cm </td>
                 if (i > 9)
                 {
-                    level = html.Substring(ind + 26, 2);//9
+                    level = html.Substring(ind + 26, 3);//9
                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
                 }
                 else
                 {
-                    level = html.Substring(ind + 25, 2);
+                    level = html.Substring(ind + 25, 3);
                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
                 }
                 observationData1.waterLevel = Convert.ToInt32(level);
