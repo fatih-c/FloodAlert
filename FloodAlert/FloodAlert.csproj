@@ -197,7 +197,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FloodAlert.db" />
+    <Content Include="FloodAlert.db" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
