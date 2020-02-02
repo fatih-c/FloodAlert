@@ -15,7 +15,8 @@ namespace FloodAlert
             WebScraping file = new WebScraping();
             string html = file.url;
             int ind;
-            string level;
+            string strLevel;
+            string[] level;
             DateTime vrijeme;
             List<ObservationData> data = new List<ObservationData>();
             List<GraphData> graphData = new List<GraphData>();
@@ -30,15 +31,17 @@ namespace FloodAlert
                 ind = html.IndexOf(substring + i + "\""); //<td>10.01.20 u 19:00</td>    <td align="right" id="nivo1">100,00 cm </td>
                 if (i > 9)
                 {
-                    level = html.Substring(ind + 26, 3);//9
+                    strLevel = html.Substring(ind + 26, 5);//9
+                    level = strLevel.Split(',');
                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
                 }
                 else
                 {
-                    level = html.Substring(ind + 25, 3);
+                    strLevel = html.Substring(ind + 25, 5);
+                    level = strLevel.Split(',');
                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
                 }
-                observationData1.waterLevel = Convert.ToInt32(level);
+                observationData1.waterLevel = Convert.ToInt32(level[0]);
                 observationData1.measuringTime = vrijeme;
                 DateTime time = DateTime.Now;
                 observationData1.processingTime = time;

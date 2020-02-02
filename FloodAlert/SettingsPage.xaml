@@ -9,7 +9,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <GridView x:Name="gridView" Margin="0,0,908,10"/>
-
+        <ListView x:Name="listView" Margin="0,0,923,10"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="1130,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="61" Width="360" AcceptsReturn="True" PlaceholderText="Unesite ID mjesta" IsReadOnly="True" FontSize="20"/>
+        <HyperlinkButton Content="Nazad" Margin="1310,925,0,0" VerticalAlignment="Top" Height="65" Width="156" FontSize="36" Click="HyperlinkButton_Click"/>
     </Grid>
 </Page>

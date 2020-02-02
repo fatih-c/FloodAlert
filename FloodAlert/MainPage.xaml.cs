@@ -27,16 +27,17 @@ namespace FloodAlert
         {
             textBlock.Text = ("ERROR: Ne mozemo pristupiti bazi! "+ message + DateTime.Now.ToString("HH:mm")); ;
         }
-        //await new MessageDialog("Your message here", "Title of the message dialog").ShowAsync();
         public MainPage()
         {
             this.InitializeComponent();
             Frame rootFrame = Window.Current.Content as Frame;
+            WaterStation wtr = new WaterStation();
+            wtr.Id = 1;
             string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FloodAlert.db");
             CopyDatabase(path);          
             try
             {
-                ShowData();
+                ShowData(wtr.Id);
             }
             catch(ArgumentNullException)
             {
@@ -101,7 +102,8 @@ namespace FloodAlert
           () => {
               try
               {
-                  ShowData();
+                  WaterStation wtr = new WaterStation();
+                  ShowData(wtr.Id);
                   textBlock.Text = "";
               }
               catch(Exception)
@@ -112,11 +114,12 @@ namespace FloodAlert
           });
 
         }
-        void ShowData()
+        void ShowData(int id)
         {
 
             ObservationDownloader observation = new ObservationDownloader();
-            int stationId = 1;
+            
+            int stationId = id;
             List<ObservationData> observationData = observation.GetLastObservation(stationId);
             SaveDatabase(observationData);
             AddChart(observationData);
@@ -136,16 +139,23 @@ namespace FloodAlert
             using (var db = new FloodAlertDb())
             {
                 ObservationData data = new ObservationData();
-                var result1 = db.ObservationData.Where(k => k.id == 1).FirstOrDefault();
                 foreach (var item in obsData)
                 {
                     data = item;
+                    var result1 = db.ObservationData.Where(k => k.measuringTime == data.measuringTime).FirstOrDefault();
+                    if (result1 == null)
+                    {
+                        db.ObservationData.Add(data);
+                        db.SaveChanges();
+                        result1 = db.ObservationData.Where(k => k.measuringTime == data.measuringTime).FirstOrDefault();
+                    }
                     if (result1.measuringTime != data.measuringTime)
                     {
                         db.ObservationData.Add(data);
-                    }
-
+                    }                  
+                       
                 }
+                
                 db.SaveChanges();
             }
             

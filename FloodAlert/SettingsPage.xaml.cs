@@ -27,12 +27,18 @@ namespace FloodAlert
             this.InitializeComponent();
             WaterStation wtr = new WaterStation();
             FloodAlertDb db = new FloodAlertDb();
-          /*  var result1 = db.ObservationData.Where(k => k.id == 1).FirstOrDefault();
+            var result1 = db.WaterStation.Where(k => k.Id == 1).FirstOrDefault();
             foreach (var item in db.WaterStation)
             {
-                gridView.Items.Add(item.Id);
-                gridView.Items.Add(item.Name);
-            }*/
+                listView.Items.Add(item.Id + " " + item.Name);
+            }
+            string strId = textBox.Text;
+            wtr.Id = Convert.ToInt32(strId);
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage));
         }
     }
 }

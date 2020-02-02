@@ -30,8 +30,7 @@
         IsSelectionEnabled="True"/>
         </Charting:Chart>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="188,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="82" Width="845" FontSize="20" Grid.Column="1" Foreground="#FFEC1818"/>
-        <NavigationView x:Name="NavigationView" Content="&#xD;&#xA;" Margin="0,-5,10,0"/>
-        <Button x:Name="button" Content="SETTINGS" Margin="361,164,0,0" VerticalAlignment="Top" Click="button_Click" RequestedTheme="Default"/>
+        <Button x:Name="button" Content="SETTINGS" Margin="5,11,0,0" VerticalAlignment="Top" Click="button_Click" RequestedTheme="Default" Grid.Column="1"/>
 
 
     </Grid>

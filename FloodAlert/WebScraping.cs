@@ -14,15 +14,17 @@ namespace FloodAlert
 {
     class WebScraping
     {
-        
+        WaterStation wtr = new WaterStation();
+        FloodAlertDb db = new FloodAlertDb();
         private readonly WebClient client;
-        public string url;
+        public string url; 
         public WebScraping()
         {
+            wtr = db.WaterStation.Where(k => k.Id == wtr.Id).FirstOrDefault();
             try
             {
                 client = new WebClient();
-                url = client.DownloadString("http://www.voda.ba/stanica?stanicabr=109");
+                url = client.DownloadString(wtr.Link);
                 if (url == null)
                 {
                     throw new ArgumentNullException();
