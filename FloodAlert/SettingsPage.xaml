@@ -10,7 +10,7 @@
 
     <Grid>
         <ListView x:Name="listView" Margin="0,0,923,10"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="1130,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="61" Width="360" AcceptsReturn="True" PlaceholderText="Unesite ID mjesta" IsReadOnly="True" FontSize="20"/>
-        <HyperlinkButton Content="Nazad" Margin="1310,925,0,0" VerticalAlignment="Top" Height="65" Width="156" FontSize="36" Click="HyperlinkButton_Click"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="1130,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="61" Width="360" AcceptsReturn="True" PlaceholderText="Unesite ID mjesta" FontSize="20" TextChanged="textBox_TextChanged" AutomationProperties.ItemType="Int"/>
+        <Button x:Name="Button" Content="Nazad&#xD;&#xA;" Margin="1310,926,0,0" VerticalAlignment="Top" Height="32" Width="146" FontSize="18" Click="Button_Click"/>
     </Grid>
 </Page>

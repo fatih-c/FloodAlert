@@ -12,7 +12,7 @@ namespace FloodAlert
         public List<ObservationData> GetLastObservation(int stationId)
         {
            
-            WebScraping file = new WebScraping();
+            WebScraping file = new WebScraping(stationId);
             string html = file.url;
             int ind;
             string strLevel;

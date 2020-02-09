@@ -27,6 +27,10 @@ namespace FloodAlert
         {
             textBlock.Text = ("ERROR: Ne mozemo pristupiti bazi! "+ message + DateTime.Now.ToString("HH:mm")); ;
         }
+        void Alert()
+        {
+            textBlock.Text = ("WATER IS AT CRITICAL POINT");
+        }
         public MainPage()
         {
             this.InitializeComponent();
@@ -116,9 +120,10 @@ namespace FloodAlert
         }
         void ShowData(int id)
         {
-
+ 
             ObservationDownloader observation = new ObservationDownloader();
-            
+            WaterStation wtr = new WaterStation();
+            wtr.Id = id;
             int stationId = id;
             List<ObservationData> observationData = observation.GetLastObservation(stationId);
             SaveDatabase(observationData);
@@ -126,7 +131,11 @@ namespace FloodAlert
             textBox.Text = observationData[0].processingTime.ToString("HH:mm");
             textBox1.Text = observationData[0].waterLevel.ToString();
             FloodAlertDb db = new FloodAlertDb();
-            foreach(var item in observationData)
+            if(wtr.CriticalPoint == observationData[0].waterLevel || wtr.CriticalPoint < observationData[0].waterLevel)
+            {
+                Alert();
+            }
+            foreach (var item in observationData)
             {
                 listView.Items.Add(item.waterLevel);
                 listView.Items.Add(item.measuringTime.ToString("dd.MM u HH:mm"));
@@ -165,15 +174,16 @@ namespace FloodAlert
         {
            
             List<GraphData> list = new List<GraphData>();
-            GraphData data1 = new GraphData();
-            for (int i = 0; i < 30; i++)
+           // GraphData data1 = new GraphData();
+            for (int i = 0; i < 8; i++)
             {
+                GraphData data1 = new GraphData();
                 data1.waterLevel = observationData[i].waterLevel;
                 data1.measuringTime = observationData[i].measuringTime.ToString("HH:mm");
                 list.Add(data1);
             }
-            //(lineChart.Series[0] as LineSeries).ItemsSource = list;
-
+            (lineChart.Series[0] as LineSeries).ItemsSource = list;
+           
 
         }
          
@@ -181,7 +191,6 @@ namespace FloodAlert
         {
 
         }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));

@@ -14,12 +14,14 @@ namespace FloodAlert
 {
     class WebScraping
     {
+
         WaterStation wtr = new WaterStation();
         FloodAlertDb db = new FloodAlertDb();
         private readonly WebClient client;
         public string url; 
-        public WebScraping()
+        public WebScraping(int id)
         {
+            wtr.Id = id;
             wtr = db.WaterStation.Where(k => k.Id == wtr.Id).FirstOrDefault();
             try
             {

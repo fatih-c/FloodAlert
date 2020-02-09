@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,18 +26,23 @@ namespace FloodAlert
         public SettingsPage()
         {
             this.InitializeComponent();
-            WaterStation wtr = new WaterStation();
+            
             FloodAlertDb db = new FloodAlertDb();
             var result1 = db.WaterStation.Where(k => k.Id == 1).FirstOrDefault();
             foreach (var item in db.WaterStation)
             {
                 listView.Items.Add(item.Id + " " + item.Name);
             }
+            
+        }
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+            WaterStation wtr = new WaterStation();
             string strId = textBox.Text;
             wtr.Id = Convert.ToInt32(strId);
         }
-
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
         }
