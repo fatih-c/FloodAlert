@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -23,28 +24,39 @@ namespace FloodAlert
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        public WaterStation wtr = new WaterStation();
+        Settings settings = new Settings();
         public SettingsPage()
         {
             this.InitializeComponent();
-            
+
             FloodAlertDb db = new FloodAlertDb();
-            var result1 = db.WaterStation.Where(k => k.Id == 1).FirstOrDefault();
+            var result1 = db.Settings.Where(k => k.Id == 1).FirstOrDefault();
+            comboBox.PlaceholderText = (result1.Name);
             foreach (var item in db.WaterStation)
             {
-                listView.Items.Add(item.Id + " " + item.Name);
+                comboBox.Items.Add(item.Name);
             }
-            
-        }
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-            WaterStation wtr = new WaterStation();
-            string strId = textBox.Text;
-            wtr.Id = Convert.ToInt32(strId);
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage));
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FloodAlertDb db = new FloodAlertDb();
+            var result1 = db.WaterStation.Where(k => k.Name == Convert.ToString(comboBox.SelectedItem)).FirstOrDefault();
+            wtr.Id = result1.Id;
+            settings.WaterStationId = wtr.Id;
+            settings.Id = 1;
+            db.Settings.Remove(settings);
+            db.SaveChanges();
+            var result2 = db.WaterStation.Where(k => k.Id == wtr.Id).FirstOrDefault();
+            settings.Name = result2.Name;
+            settings.Id = 1;
+            db.Settings.Add(settings);
+            db.SaveChanges();
         }
     }
 }

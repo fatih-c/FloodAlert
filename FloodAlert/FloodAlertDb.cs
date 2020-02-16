@@ -14,14 +14,13 @@ namespace FloodAlert
 {
     class FloodAlertDb : DbContext
     {
-        public DbSet<ObservationData> ObservationData{ get; set; }
+        public DbSet<ObservationData> ObservationData { get; set; }
         public DbSet<WaterStation> WaterStation { get; set; }
+        public DbSet<Settings> Settings { get; set; }
         string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FloodAlert.db");
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {          
             optionsBuilder.UseSqlite("Data Source = "+ path);
-            //base.OnConfiguring(optionsBuilder);
         }
-        //public virtual DbSet<ObservationData> ObservationData { get; set; }
     }
 }

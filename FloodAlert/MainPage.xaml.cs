@@ -18,6 +18,7 @@ namespace FloodAlert
 {
     public sealed partial class MainPage : Page
     {
+        public WaterStation wtr = new WaterStation();
         private Timer timer;
         void ShowMessage()
         {
@@ -29,14 +30,15 @@ namespace FloodAlert
         }
         void Alert()
         {
-            textBlock.Text = ("WATER IS AT CRITICAL POINT");
+            textBlock.Text = ("WATER HAS REACHED A CRITICAL POINT!");
         }
         public MainPage()
         {
             this.InitializeComponent();
             Frame rootFrame = Window.Current.Content as Frame;
-            WaterStation wtr = new WaterStation();
-            wtr.Id = 1;
+            FloodAlertDb db = new FloodAlertDb();
+            var id = db.Settings.Where(k => k.Id == 1).FirstOrDefault();
+            wtr.Id = id.WaterStationId;
             string path = Path.Combine(ApplicationData.Current.LocalFolder.Path, "FloodAlert.db");
             CopyDatabase(path);          
             try
@@ -51,44 +53,7 @@ namespace FloodAlert
             }
 
 
-            timer = new Timer(timerCallback, null, (int)TimeSpan.FromMinutes(10).TotalMilliseconds, Timeout.Infinite);
-            #region stari kod
-            //listView.Items.Add(observationData.Count);
-            /* ObservationData data = new ObservationData();
-             data.stationId = 109;
-             WebScraping file = new WebScraping();             
-             string html = file.url;
-             int ind;
-             string level;
-             DateTime vrijeme;
-             string format = "dd.MM.yy u HH:mm";          
-             string substring = "id=\"nivo";
-             for (int i = 1; i<=30; i++)
-             {
-
-                 ind = html.IndexOf(substring + i + "\""); //<td>10.01.20 u 19:00</td>    <td align="right" id="nivo1">100,00 cm </td>
-                 if (i > 9)
-                 {
-                     level = html.Substring(ind + 26, 9);
-                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
-                 }
-                 else
-                 {
-                     level = html.Substring(ind + 25, 9);
-                     vrijeme = DateTime.ParseExact(html.Substring(ind - 25, 16), format, CultureInfo.CurrentCulture);
-                 }
-                 FloodAlertDb db = new FloodAlertDb();
-
-                 listView.Items.Add(vrijeme.ToString("dd.MM u HH:mm")+ "    " + level);
-
-
-             }*/
-            // txtBox1.Text = lista;
-            /* int ind = html.IndexOf("id=\"nivo1\""); //<td>10.01.20 u 19:00</td>    <td align="right" id="nivo1">100,00 cm </td>
-             string level = html.Substring(ind+25, 9);
-             string vrijeme = html.Substring(ind - 25, 16);
-             txtBox1.Text = vrijeme + "    " + level;*/
-            #endregion
+            timer = new Timer(timerCallback, null, (int)TimeSpan.FromMinutes(0.3).TotalMilliseconds, Timeout.Infinite);
         }
 
         void CopyDatabase(string path)
@@ -105,8 +70,7 @@ namespace FloodAlert
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
           () => {
               try
-              {
-                  WaterStation wtr = new WaterStation();
+              { 
                   ShowData(wtr.Id);
                   textBlock.Text = "";
               }
@@ -122,7 +86,6 @@ namespace FloodAlert
         {
  
             ObservationDownloader observation = new ObservationDownloader();
-            WaterStation wtr = new WaterStation();
             wtr.Id = id;
             int stationId = id;
             List<ObservationData> observationData = observation.GetLastObservation(stationId);
@@ -131,7 +94,8 @@ namespace FloodAlert
             textBox.Text = observationData[0].processingTime.ToString("HH:mm");
             textBox1.Text = observationData[0].waterLevel.ToString();
             FloodAlertDb db = new FloodAlertDb();
-            if(wtr.CriticalPoint == observationData[0].waterLevel || wtr.CriticalPoint < observationData[0].waterLevel)
+            var result1 = db.WaterStation.Where(k => k.Id == id).FirstOrDefault();
+            if (result1.CriticalPoint == observationData[0].waterLevel || result1.CriticalPoint < observationData[0].waterLevel)
             {
                 Alert();
             }
@@ -174,8 +138,7 @@ namespace FloodAlert
         {
            
             List<GraphData> list = new List<GraphData>();
-           // GraphData data1 = new GraphData();
-            for (int i = 0; i < 8; i++)
+            for (int i = 8; i >= 0; i--)
             {
                 GraphData data1 = new GraphData();
                 data1.waterLevel = observationData[i].waterLevel;
@@ -183,8 +146,7 @@ namespace FloodAlert
                 list.Add(data1);
             }
             (lineChart.Series[0] as LineSeries).ItemsSource = list;
-           
-
+            lineChart.DataContext = list;
         }
          
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

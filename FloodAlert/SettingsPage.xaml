@@ -9,8 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ListView x:Name="listView" Margin="0,0,923,10"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="1130,10,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="61" Width="360" AcceptsReturn="True" PlaceholderText="Unesite ID mjesta" FontSize="20" TextChanged="textBox_TextChanged" AutomationProperties.ItemType="Int"/>
-        <Button x:Name="Button" Content="Nazad&#xD;&#xA;" Margin="1310,926,0,0" VerticalAlignment="Top" Height="32" Width="146" FontSize="18" Click="Button_Click"/>
+        <Button x:Name="Button" Content="Nazad&#xD;&#xA;" Margin="46,41,0,0" VerticalAlignment="Top" Height="32" Width="146" FontSize="18" Click="Button_Click"/>
+        <ComboBox x:Name="comboBox" Margin="0,41,0,0" Width="562" Height="67" HorizontalAlignment="Center" SelectionChanged="comboBox_SelectionChanged"/>
     </Grid>
 </Page>
